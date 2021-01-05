@@ -1,29 +1,40 @@
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
+import FullCalendar from '@fullcalendar/react'
+import dayGridPlugin from '@fullcalendar/daygrid'
+import "../src/styles/CalendarStyles.css"
+import moment from "moment";
+import { ChevronLeft , ChevronRight} from '@material-ui/icons';
+import {Typography} from "@material-ui/core";
 
 function Home(){
 
-    const [users, setUsers] = useState([]);
+    const [currMonth, setCurrMonth] = useState(null)
 
-    useEffect(
+    useEffect(() =>{
+        setCurrMonth(moment().format('MMMM YYYY'))
+    },[])
 
-        ()=>{
-            axios.get('/users').then(response => {
-                setUsers(response.data)
-            })
-        }
-    )
+    const renderHeader = () =>{
+        return(
+            <div style={{ display: "flex", justifyContent: "space-between"}}>
+                <ChevronLeft onClick={subMonth}/>
+                <Typography variant={"h4"}> {currMonth}</Typography>
+                <ChevronRight onClick={addMonth}/>
+            </div>
+        )
+    }
+    const addMonth = () =>{
+       setCurrMonth(moment(currMonth).add(1,'M').format('MMMM YYYY'))
+    }
+
+    const subMonth = () => {
+       setCurrMonth(moment(currMonth).subtract(1,'M').format('MMMM YYYY'))
+    }
 
     return(
-        <div>
-            {users.map(user => {
-              return <ul>
-                  <li>{user.uuid}</li>
-                  <li>{user.email}</li>
-                  <li>{user.fullName}</li>
-              </ul>
-            })
-            }
+        <div className={'Calendar'}>
+            {renderHeader()}
         </div>
     )
 }
