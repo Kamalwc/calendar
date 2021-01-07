@@ -32,9 +32,23 @@ function Home(){
        setCurrMonth(moment(currMonth).subtract(1,'M').format('MMMM YYYY'))
     }
 
+    const renderDays = () =>{
+        let days = [];
+
+        for(let i = 0; i < 7; i++){
+            days.push(<div>{moment().day("Sunday").add(i,'d').format('dddd')}</div>)
+        }
+        return(
+            <div id={"days"}>
+                {days}
+            </div>
+        )
+    }
+
     return(
         <div className={'Calendar'}>
             {renderHeader()}
+            {renderDays()}
         </div>
     )
 }
