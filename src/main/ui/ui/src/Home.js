@@ -1,3 +1,4 @@
+
 import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 import FullCalendar from '@fullcalendar/react'
@@ -25,18 +26,66 @@ function Home(){
         )
     }
     const addMonth = () =>{
-       setCurrMonth(moment(currMonth).add(1,'M').format('MMMM YYYY'))
+        setCurrMonth(moment(currMonth).add(1,'M').format('MMMM YYYY'))
     }
 
     const subMonth = () => {
-       setCurrMonth(moment(currMonth).subtract(1,'M').format('MMMM YYYY'))
+        setCurrMonth(moment(currMonth).subtract(1,'M').format('MMMM YYYY'))
+    }
+
+    const renderDays = () =>{
+        let days = [];
+
+        for(let i = 0; i < 7; i++){
+            days.push(<div>{moment().day("Sunday").add(i,'d').format('dddd')}</div>)
+        }
+        return(
+            <div id={"days"}>
+                {days}
+            </div>
+        )
+    }
+
+    const renderCells = () =>{
+        // start of the month
+        // start of the week of the month
+        // last day of the month
+        // last day of the week of the last day of the month
+        const monthStart = moment(currMonth).startOf('month');
+        const monthEnd = moment(currMonth).endOf('month');
+        const calendarStart = moment(monthStart).startOf('week');
+        const calendarEnd = moment(monthEnd).endOf('week');
+
+        // while day doestn equal last day render cells
+        let day = calendarStart;
+        let rows = []
+        while(day < calendarEnd){
+            let tempRow = [];
+            for (let i = 0; i < 7; i++) {
+                tempRow.push(<div className={moment(currMonth).isSame(day,'month')? "cells" : "cells-disabled"}>
+                    {day.format('D')}
+                </div>)
+                day.add(1,'days');
+            }
+            {rows.push(<div style={{display: "flex", justifyContent:"left"}}>{tempRow}</div>)}
+            tempRow = [];
+        }
+
+        return(
+            <div>
+                {rows}
+            </div>
+        )
     }
 
     return(
         <div className={'Calendar'}>
             {renderHeader()}
+            {renderDays()}
+            {renderCells()}
         </div>
     )
 }
 
 export default Home;
+
