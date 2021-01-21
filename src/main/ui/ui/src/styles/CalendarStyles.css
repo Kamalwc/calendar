@@ -10,3 +10,21 @@
     border: 3px solid black;
 }
 
+.cells{
+    border: 1px solid rgb(0, 0, 0);
+    width: 17%;
+    height: 16.6vh;
+    color: #000;
+    font-weight: bold;
+    font-size: 31px;
+}
+
+.cells-disabled{
+    border: 1px solid rgb(0, 0, 0);
+    width: 17%;
+    height: 16.6vh;
+    color: #808080;
+    opacity: 0.4;
+    font-weight: bold;
+    font-size: 31px;
+}
