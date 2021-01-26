@@ -78,8 +78,24 @@ function Home(){
         )
     }
 
+    const add = () =>{
+        setCurrMonth(moment(currMonth).add(1 ,"months").format('MMMM YYYY'))
+    }
+
+    const sub = () =>{
+        setCurrMonth(moment(currMonth).subtract(1, "months").format('MMMM YYYY'))
+    }
+
+    const wheel = (e) =>{
+        if(e.deltaY > 0){
+            sub();
+        }else if(e.deltaY < 0){
+            add();
+        }
+    }
+
     return(
-        <div className={'Calendar'}>
+        <div className={'Calendar'} onWheel={wheel}>
             {renderHeader()}
             {renderDays()}
             {renderCells()}
