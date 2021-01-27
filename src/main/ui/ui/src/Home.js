@@ -1,16 +1,17 @@
 
 import React, {useEffect, useState} from 'react'
-import axios from 'axios'
-import FullCalendar from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
 import "../src/styles/CalendarStyles.css"
 import moment from "moment";
 import { ChevronLeft , ChevronRight} from '@material-ui/icons';
 import {Typography} from "@material-ui/core";
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import Button from "@material-ui/core/Button";
+import CreateDialog from "./CreateDialog";
 
 function Home(){
 
-    const [currMonth, setCurrMonth] = useState(null)
+    const [currMonth, setCurrMonth] = useState(null);
+    const [openCreateDialog, setOpenCreateDialog] = useState(false)
 
     useEffect(() =>{
         setCurrMonth(moment().format('MMMM YYYY'))
@@ -36,16 +37,11 @@ function Home(){
 
 
     const renderCells = () =>{
-        // start of the month
-        // start of the week of the month
-        // last day of the month
-        // last day of the week of the last day of the month
         const monthStart = moment(currMonth).startOf('month');
         const monthEnd = moment(currMonth).endOf('month');
         const calendarStart = moment(monthStart).startOf('week');
         const calendarEnd = moment(monthEnd).endOf('week');
 
-        // while day doestn equal last day render cells
         let day = calendarStart;
         let rows = []
         while(day < calendarEnd){
@@ -97,11 +93,23 @@ function Home(){
         )
     }
 
+    const handleOpenCreateDialog = () =>{
+        setOpenCreateDialog(true);
+    }
+
     return(
         <div className={'Calendar'} onWheel={wheel}>
+            <Button disableRipple={true}
+                    startIcon={<AddCircleIcon/>}
+                    style={{backgroundColor: "#2a485f", color: "#fff"}}
+                    onClick={handleOpenCreateDialog}
+            >
+                {"Create"}
+            </Button>
             {renderHeader()}
             {renderDays()}
             {renderCells()}
+            <CreateDialog openCreateDialog={openCreateDialog}/>
         </div>
     )
 }
