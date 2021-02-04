@@ -1,11 +1,29 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from "axios";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 const Login = () =>{
-    return(
-        <h1>
-            LOGIN HERE
-        </h1>
-    )
-}
+    const [users, setUsers] =useState();
+    const [loading, setLoading] = useState(true)
 
-export default Login;
+
+    useEffect(() =>{
+        axios.get("/users").then(x => {
+            setUsers(x.data)
+            setLoading(false)
+        }) }, [])
+        return(
+            <div>
+                {
+                    loading ?
+                        <CircularProgress/> :
+                        users.map(x=>{
+                            return(<h1> {x.fullName}</h1>)
+                        })
+                }
+            </div>
+        )
+    }
+
+    export default Login;
