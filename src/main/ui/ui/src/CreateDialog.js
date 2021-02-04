@@ -29,7 +29,7 @@ function CreateDialog(props) {
             {/*    select a type */}
                 <InputLabel>Type</InputLabel>
                 <Select>
-                    <MenuItem value={"Event"}>Event</MenuItem>
+                    <MenuItem value={"Engagement"}>Engagement</MenuItem>
                     <MenuItem value={"Task"}>Task</MenuItem>
                     <MenuItem value={"Reminder"}>Reminder</MenuItem>
                 </Select>
