@@ -10,7 +10,6 @@ import java.util.List;
 public interface ProfileRepository extends JpaRepository<Profile, Integer> {
 
     @Query(value = "SELECT * " +
-            "FROM calendar.profile "
-            ,nativeQuery = true)
+            "FROM calendar.profile ",nativeQuery = true)
     List<Profile> getAllProfiles();
 }
