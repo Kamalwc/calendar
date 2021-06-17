@@ -7,29 +7,22 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "event")
-public class Event {
+@Table(name = "reminder")
+public class Reminder {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     Integer id;
 
-    @Column(name = "uuid")
     Integer uuid;
 
-    @Column(name = "title")
     String title;
 
-    @Column(name = "day")
-    String day;
+    Date day;
 
-    @Column(name = "time")
-    String time;
+    Date time;
 
-    @Column(name = "description")
     String description;
 
-    @Column(name = "type")
     String type;
 }
 

@@ -12,4 +12,3 @@ public class EventModel {
     String description;
     String type;
 }
-

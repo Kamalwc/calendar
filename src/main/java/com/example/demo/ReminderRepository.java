@@ -5,14 +5,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
-public interface EventRepository extends PagingAndSortingRepository<Event, Integer> {
+public interface ReminderRepository extends PagingAndSortingRepository<Reminder, Integer> {
 
     @Query(value = "select * from calendar.event where uuid = :uuid ", nativeQuery = true)
-    List<Event> findEventByUuid(@Param("uuid") Integer uuid);
+    List<Reminder> findEventByUuid(@Param("uuid") Integer uuid);
 
     @Modifying
     @Query( value ="INSERT INTO " +
