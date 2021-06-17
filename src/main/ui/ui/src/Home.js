@@ -1,5 +1,5 @@
 
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useRef} from 'react'
 import "../src/styles/CalendarStyles.css"
 import moment from "moment";
 import { ChevronLeft , ChevronRight} from '@material-ui/icons';
@@ -7,6 +7,7 @@ import {Typography} from "@material-ui/core";
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Button from "@material-ui/core/Button";
 import CreateDialog from "./CreateDialog";
+import axios from "axios";
 
 function Home(){
 
@@ -14,13 +15,14 @@ function Home(){
     const [openCreateDialog, setOpenCreateDialog] = useState(false)
 
     useEffect(() =>{
-        setCurrMonth(moment().format('MMMM YYYY'))
+        setCurrMonth(moment().format('MMMM YYYY'));
+        getEvents();
     },[])
 
     const renderHeader = () =>{
         return(
             <div style={{ display: "flex", justifyContent: "space-between"}}>
-                <ChevronLeft onClick={subMonth}/>
+                <ChevronLeft onClick={subMonth} />
                 <Typography variant={"h4"}> {currMonth}</Typography>
                 <ChevronRight onClick={addMonth}/>
             </div>
@@ -34,6 +36,11 @@ function Home(){
         setCurrMonth(moment(currMonth).subtract(1,'M').format('MMMM YYYY'))
     }
 
+    const getEvents = () =>{
+        axios.get(`/getEvents`,{},{
+            uuid: 4545
+        });
+    }
 
 
     const renderCells = () =>{
@@ -55,7 +62,6 @@ function Home(){
             {rows.push(<div style={{display: "flex", justifyContent:"left"}}>{tempRow}</div>)}
             tempRow = [];
         }
-
         return(
             <div>
                 {rows}
@@ -97,6 +103,10 @@ function Home(){
         setOpenCreateDialog(true);
     }
 
+    const handleCloseCreateDialog = () =>{
+        setOpenCreateDialog(false);
+    }
+
     return(
         <div className={'Calendar'} onWheel={wheel}>
             <Button disableRipple={true}
@@ -109,7 +119,7 @@ function Home(){
             {renderHeader()}
             {renderDays()}
             {renderCells()}
-            <CreateDialog openCreateDialog={openCreateDialog}/>
+            <CreateDialog openCreateDialog={openCreateDialog} handleCloseCreateDialog={handleCloseCreateDialog}/>
         </div>
     )
 }
