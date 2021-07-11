@@ -93,12 +93,6 @@ function CreateDialog( {openCreateDialog, handleCloseCreateDialog}) {
                         </Typography>
                     </DialogTitle>
                     <form style={{display: "flex", flexDirection: "column"}}>
-                        <InputLabel>Type</InputLabel>
-                        <Select onChange={selectOption} variant={"outlined"}>
-                            <MenuItem value={"Engagement"}>Engagement</MenuItem>
-                            <MenuItem value={"Task"}>Task</MenuItem>
-                            <MenuItem value={"Reminder"}>Reminder</MenuItem>
-                        </Select>
                         <TextField
                             error={titleError}
                             onChange={handleTitleChange}

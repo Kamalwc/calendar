@@ -1,5 +1,7 @@
 package com.example.demo;
 
+import com.example.demo.dto.ReminderPl;
+import com.example.demo.service.ReminderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -7,24 +9,21 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/calendar")
 public  class CalendarController {
+
+    @Autowired
+    ReminderService reminderService;
+
     @Autowired
     ProfileRepository profileRepository;
-
-    @Autowired
-    ReminderRepository reminderRepository;
-
     // POST, PUT, GET, DELETE
     // create reminder POST ( creating / updating a resource)
     // get reminder GET (request data from a server)
     // update/ edit reminder POST
     // delete reminder DELETE
 
-
-    @RequestMapping("/")
-    public String FirstPage() {
-        return "We succeed. we are viewing our first page.";
-    }
+    //CREATE TESTS FOR ALL
 
     @GetMapping(value = "/users")
     public List<Profile> allUsers(){
@@ -32,30 +31,32 @@ public  class CalendarController {
         return profiles;
     }
 
-    @PostMapping(value = "/createEvent")
-    public ResponseEntity<String> createEvent(@RequestBody EventModel eventModel){
-      reminderRepository.createEvent(eventModel.getUuid(), eventModel.getTitle(), eventModel.getDay(), eventModel.getTime(),
-              eventModel.getDescription(), eventModel.getType());
-
-      return ResponseEntity.ok("success");
+    @PostMapping(value = "/reminder")
+    public ResponseEntity createReminder(@RequestBody ReminderPl payload){
+        Reminder reminder = reminderService.createReminder(payload);
+        if(reminder != null){
+            return ResponseEntity.ok().body("Success! event created.");
+        }else{
+            return ResponseEntity.badRequest().body("Error! not created.");
+        }
     }
 
-    @PutMapping("/updateEvent/{id}")
-    public ResponseEntity<String> updateEvent(@RequestBody EventModel eventModel, @PathVariable("id") Integer id){
-        reminderRepository.updateEvent(id, eventModel.getTitle(), eventModel.getDescription(),
-                eventModel.getDay(), eventModel.getType(), eventModel.getTime());
-
-        return ResponseEntity.ok("success");
+    @PostMapping("/reminder/{eventId}")
+    public ResponseEntity updateReminder(@RequestBody ReminderPl payload, @PathVariable("eventId") Integer eventId){
+        Reminder reminder = reminderService.updateReminder(payload, eventId);
+        if(reminder != null){
+            return ResponseEntity.ok().body("Success! event created.");
+        }else{
+            return ResponseEntity.badRequest().body("Error! not created.");
+        }
     }
 
-    @GetMapping("/getEvents")
-    public List<Reminder> getEvent(@RequestParam Integer uuid){
-        return reminderRepository.findEventByUuid(uuid);
-    }
+//    @GetMapping("/getEvents")
+//    public List<Reminder> getEvent(@RequestParam Integer uuid){
+//    }
 
     @DeleteMapping("/deleteEvent/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable("id") Integer id){
-        reminderRepository.deleteEventById(id);
         return ResponseEntity.ok("Success .. event under id: " + id.toString() + "deleted");
     }
 

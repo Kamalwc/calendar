@@ -2,17 +2,15 @@ package com.example.demo;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Data
 public class Profile {
     @Id
-    @Column(name = "uuid")
-    int uuid;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    Integer id;
 
     @Column(name = "email")
     String email;
